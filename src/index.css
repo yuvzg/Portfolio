@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #171717;
+  --color-card: #1d1d1d;
+  --color-card-hover: #222222;
+  --color-line: #2a2a2a;
+  --color-ink: #ededed;
+  --color-muted: #8a8a8a;
+  --color-accent: #981820;
+  --color-accent-soft: #c9404c;
+  --font-display: "Syne", sans-serif;
+  --font-serif: "Instrument Serif", serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+html {
+  font-size: 17px;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  scrollbar-color: #3a3a3a #171717;
+}
+
+body {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='none' stroke='%23b0262f' stroke-width='1'><g opacity='0.055'><polygon points='55.0,35.0 78.4,48.5 78.4,75.5 55.0,89.0 31.6,75.5 31.6,48.5'/><path d='M55,62 L78.4,48.5 M55,62 L31.6,48.5 M55,62 L55.0,89.0'/></g><g opacity='0.04'><polygon points='140.0,133.0 153.0,140.5 153.0,155.5 140.0,163.0 127.0,155.5 127.0,140.5'/><path d='M140,148 L153.0,140.5 M140,148 L127.0,140.5 M140,148 L140.0,163.0'/></g></g></svg>");
+  background-attachment: fixed;
+}
+
+/* Cavallo-style quiet dark texture, with a Rubik's twist: a faint
+   isometric line lattice + ambient glows in cube-sticker colors,
+   the crimson (avatar red) leading. */
+body {
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(700px 460px at 12% 8%, rgba(152, 24, 32, 0.16), transparent 70%),
+    radial-gradient(560px 380px at 88% 18%, rgba(36, 100, 180, 0.07), transparent 70%),
+    radial-gradient(560px 380px at 72% 92%, rgba(46, 158, 79, 0.06), transparent 70%),
+    radial-gradient(480px 320px at 8% 82%, rgba(242, 140, 40, 0.05), transparent 70%),
+    repeating-linear-gradient(90deg, transparent 0 55px, rgba(237, 237, 237, 0.022) 55px 56px),
+    repeating-linear-gradient(30deg, transparent 0 55px, rgba(237, 237, 237, 0.022) 55px 56px),
+    repeating-linear-gradient(150deg, transparent 0 55px, rgba(237, 237, 237, 0.022) 55px 56px);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #171717;
+}
+
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.marquee-l { animation: marquee-left 28s linear infinite; }
+.marquee-r { animation: marquee-right 32s linear infinite; }
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.anim-spin-slow { animation: spin-slow 22s linear infinite; }
+
+@keyframes drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-56px, -56px); }
+}
+.anim-drift { animation: drift 7s linear infinite; }
+
+@keyframes ring-pulse {
+  0% { transform: scale(0.6); opacity: 0.5; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.anim-ring { animation: ring-pulse 3.2s ease-out infinite; }
+.anim-ring-2 { animation: ring-pulse 3.2s ease-out infinite 1.6s; }
+
+@property --ang {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes border-spin {
+  to { --ang: 360deg; }
+}
+.btn-anim-border {
+  position: relative;
+  isolation: isolate;
+}
+.btn-anim-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--ang),
+    rgba(207, 61, 71, 0.95),
+    rgba(244, 237, 237, 0.12) 35%,
+    rgba(207, 61, 71, 0.4) 65%,
+    rgba(207, 61, 71, 0.95)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: border-spin 3.5s linear infinite;
+  pointer-events: none;
+}
+.glow-accent {
+  box-shadow: 0 0 22px rgba(176, 38, 47, 0.45), 0 0 60px rgba(176, 38, 47, 0.18);
+}
+.glow-accent:hover {
+  box-shadow: 0 0 30px rgba(207, 61, 71, 0.6), 0 0 80px rgba(207, 61, 71, 0.25);
+}
+
+@keyframes gradient-pan {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.anim-gradient {
+  background-size: 220% 220%;
+  animation: gradient-pan 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-l, .marquee-r, .anim-spin-slow, .anim-drift, .anim-ring, .anim-ring-2, .anim-gradient { animation: none; }
+  .btn-anim-border::before { animation: none; }
+}
